@@ -1,0 +1,33 @@
+phase05:
+  start_date: "2024-10-01"
+  end_date: "2026-09-30"
+  symbols: [BTCUSDT, ETHUSDT, SOLUSDT, BNBUSDT, XRPUSDT,
+            DOGEUSDT, ADAUSDT, AVAXUSDT, LINKUSDT]
+  notional_per_symbol_usdt: 1000
+  max_leverage: 2.0
+  # Fraction of futures allocation consumed by worst adverse move (0.5.6).
+  # NOT Binance margin ratio; NOT Section 15 margin_kill_ratio.
+  diagnostic_margin_consumption_limit: 0.70
+  fees:
+    spot_taker: 0.001    # Regular user, no BNB discount (0.10%)
+    perp_taker: 0.0005   # Regular user, no BNB discount (0.05%)
+  slippage_bps:
+    default: 5
+    BTCUSDT: 2
+    ETHUSDT: 2
+  entry_lookback_periods: 3        # K
+  entry_threshold_grid: [0.00005, 0.0001, 0.00015,
+                         0.0002, 0.0003, 0.0005]
+  exit_threshold: 0.0
+  exit_periods: 2                  # N
+  is_fraction: 0.6
+  cost_stress_multiplier: 1.5
+  min_oos_trades: 20
+  min_profitable_symbols: 3
+  # Opportunity-cost parameter: set to your realistic alternative yield
+  # BEFORE running. Never adjust after viewing OOS results.
+  hurdle_annual_return: 0.05
+  max_drawdown_pct: 0.05
+  # Paths relative to the repository root.
+  data_dir: data/phase05
+  reports_dir: reports/phase05

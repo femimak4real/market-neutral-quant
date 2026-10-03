@@ -1,0 +1,53 @@
+# Research Gate R2 (OI-conditioned cross-sectional reversal), Revision 2.
+# Values are pre-registered; do not change after viewing any R2 results.
+r2_oi:
+  start_date: "2024-10-01"
+  end_date: "2026-09-30"
+  universe_size: 20
+  min_listing_days: 90
+  min_feasible_symbols: 15
+  exclude_bases: [USDC, FDUSD, TUSD, USDP, DAI]
+  zscore_window_days: 30
+  lookback_grid_hours: [4, 8, 12, 24, 48, 72]
+  rebalance_hour_utc: 0
+  n_per_side: 4
+  gross_notional_usdt: 8000
+  max_leverage: 2.0
+  diagnostic_margin_consumption_limit: 0.70
+  fees:
+    perp_taker: 0.0005           # Regular user, no BNB discount
+  slippage_bps:
+    default: 5
+    BTCUSDT: 2
+    ETHUSDT: 2
+  is_fraction: 0.6
+  cost_stress_multiplier: 1.5
+  min_oos_rebalances: 200
+  # Opportunity-cost parameter; set BEFORE running, never after OOS.
+  hurdle_annual_return: 0.05
+  max_drawdown_pct: 0.10
+  max_abs_beta: 0.20
+  n_permutations: 1000
+  permutation_quantile: 0.95
+  permutation_seed: 20261001
+  data_dir: data/r2_oi
+  reports_dir: reports/r2_oi
+
+  # Stage A implementation of spec R2.2 / R2.4 (same thresholds as the spec).
+  stage_a:
+    # Index/basket contracts excluded per R2.2 (by symbol).
+    exclude_symbols: [BTCDOMUSDT, DEFIUSDT, FOOTBALLUSDT, BLUEBIRDUSDT]
+    # "Complete" pre-start volume data = this fraction of the 720 hourly bars.
+    prestart_min_bar_coverage: 1.0
+    min_metrics_day_coverage: 0.98
+    min_median_rows_per_day: 280
+    max_oi_null_or_zero_ratio: 0.01
+    max_metrics_interval_seconds: 330   # 5-minute cadence plus tolerance
+    max_kline_missing_ratio: 0.02
+    max_funding_missing_ratio: 0.02
+    gap_report_minutes: 15              # reporting only, not a criterion
+    # A contract is delisted at its last bar with traded volume when every
+    # later bar to the end of the data has zero volume for at least this long
+    # (the archive keeps writing frozen zero-volume bars after delisting).
+    delisting_zero_volume_days: 7
+    download_workers: 8

@@ -1,0 +1,11 @@
+# Liquidation recorder (docs/collector_liquidations_spec.md). Records only; no keys.
+collector:
+  # Binance routes futures streams by path (/public, /market, /private).
+  # Set this to whichever routed URL the probe shows delivering events.
+  ws_url: "wss://fstream.binance.com/market/ws/!forceOrder@arr"
+  data_dir: data/collector
+  heartbeat_seconds: 30
+  gap_threshold_seconds: 90       # silence longer than this while "alive" = a gap
+  gzip_completed_days: true
+  # Connected but no message for this long = gap + reconnect (silent stream).
+  max_silence_minutes: 15
